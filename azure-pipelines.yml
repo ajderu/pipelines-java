@@ -53,3 +53,14 @@ steps:
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
     StartupCommand: '$(Parameters.StartupCommand)'
 #deploy the Java app to Azure App Service
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)/_AzureDemo/**'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/_AzureDemo'
+#we need to copy the entire repo to a folder
+- task: CmdLine@2
+  inputs:
+    script: |
+      pwd    
+      ls
