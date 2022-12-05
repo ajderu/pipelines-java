@@ -11,7 +11,7 @@ pool:
 
 variables: 
 - name: ConnectedServiceName
-  value: YAML_Pipelines
+  value: e41dbaa4-dee2-46f5-af6a-474e47050169
 - name: WebAppKind
   value: 'Web App on Linux'
 - name: WebAppName
@@ -40,7 +40,7 @@ steps:
 - task: AzureRmWebAppDeployment@4
   displayName: 'Deploy Azure App Service'
   inputs:
-    azureSubscription: '$ConnectedServiceName'
+    azureSubscription: $ConnectedServiceName
     appType: '$WebAppKind'
     WebAppName: '$WebAppName'
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
