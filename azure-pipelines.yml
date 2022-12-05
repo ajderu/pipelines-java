@@ -8,7 +8,7 @@ trigger:
 
 variables: 
 - name: ConnectedServiceName
-  value: e41dbaa4-dee2-46f5-af6a-474e47050169
+  value: YAML_Pipelines
 - name: WebAppKind
   value: 'Web App on Linux'
 - name: WebAppName
