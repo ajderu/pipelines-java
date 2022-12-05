@@ -9,10 +9,10 @@ trigger:
 variables: 
 - name: azureSubscription
   value: 'YAML_Pipelines'
-#- name: WebAppKind
-#  value: 'Web App on Linux'
-#- name: WebAppName
-#  value: aj-webapp-demo
+- name: WebAppKind
+  value: 'Web App on Linux'
+- name: WebAppName
+  value: aj-webapp-demo
 
 pool:
   vmImage: ubuntu-latest
@@ -41,8 +41,8 @@ steps:
 - task: AzureRmWebAppDeployment@4
   displayName: 'Deploy Azure App Service'
   inputs:
-    azureSubscription: '$azureSubscription'
-    appType: '$appType'
-    WebAppName: '$WebAppName'
+    azureSubscription: $(azureSubscription)
+    appType: $(appType)
+    WebAppName: $(WebAppName)
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
     StartupCommand: '$(Parameters.StartupCommand)'
