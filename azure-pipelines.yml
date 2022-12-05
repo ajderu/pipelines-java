@@ -32,15 +32,18 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
+#the task above creates the build file
 - task: CopyFiles@2
   inputs:
     Contents: '**/*.war'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+#copy the from s folder to a folder
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'warfile'
     publishLocation: 'Container'
+#publish the artifact in a folder
 - task: AzureRmWebAppDeployment@4
   displayName: 'Deploy Azure App Service'
   inputs:
@@ -49,3 +52,4 @@ steps:
     WebAppName: $(WebAppName)
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
     StartupCommand: '$(Parameters.StartupCommand)'
+#deploy the Java app to Azure App Service
