@@ -12,7 +12,7 @@ variables:
 - name: WebAppKind
   value: 'Web App on Linux'
 - name: WebAppName
-  value: aj-webapp-demo
+  value: aj-webapp-yaml
 
 pool:
   vmImage: ubuntu-latest
