@@ -16,6 +16,7 @@ variables:
 - name: WebAppName
   value: aj-webapp-yaml
 #WebAppName exactly as it was created in Azure portal
+
 pool:
   vmImage: ubuntu-latest
 
