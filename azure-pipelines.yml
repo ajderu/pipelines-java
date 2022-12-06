@@ -12,7 +12,8 @@ variables:
   value: aj-webapp-production
 - name: appType
   value: 'Web App on Linux'
-
+- name: system.debug
+  value: true
 stages:
 
 - stage: _BuildStage
