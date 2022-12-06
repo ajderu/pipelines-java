@@ -2,24 +2,23 @@ trigger:
   branches:
     include:
     - master
-    
+
 variables:
 - name: azureSubscription
   value: 'YAML_Pipelines'
-  #this is the service connection to MS Azure
 - name: WebAppNameQA
   value: aj-webapp-qa
-  #under App Service in MS Azure I created the aj-webapp-qa webapp
 - name: WebAppNameProd
   value: aj-webapp-production
-  #under App Service in MS Azure I created the aj-webapp-production webapp
 - name: appType
   value: 'Web App on Linux'
-  
+
 stages:
 
 - stage: _BuildStage
+
   jobs:
+
   - job: Build
     pool:
       vmImage: windows-latest
@@ -41,26 +40,26 @@ stages:
         Contents: '**/*.war'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
     - task: PublishBuildArtifacts@1
-      displayName: 'Publish .war file to a folder'
+      displayName: 'Publish .war file'
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'warfile'
         publishLocation: 'Container'
-        
+
 - stage: _DeployQAStage
+
   jobs:
+
   - job: DeployQA
     pool:
       vmImage: windows-latest
     steps:
     - task: DownloadBuildArtifacts@0
-      displayName: 'Download warfile build artifact'
       inputs:
         buildType: 'current'
         downloadType: 'single'
         artifactName: 'warfile'
-        downloadPath: '$(Build.ArtifactStagingDirectory)'/**/*.war'
-        StartupCommand: '$(Parameters.StartupCommand)'
+        downloadPath: '$(Build.ArtifactStagingDirectory)'
     - task: AzureRmWebAppDeployment@4
       displayName: 'Deploy QA'
       inputs:
@@ -126,5 +125,4 @@ stages:
         WebAppName: $(WebAppNameProd)
         packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.war'
         StartupCommand: '$(Parameters.StartupCommand)'
-
 
