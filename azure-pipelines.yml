@@ -12,7 +12,7 @@ variables:
 stages:
 - stage: _BuildStage
   jobs:
-  - job: Build and publish .war artifact
+  - job: Build
     pool:
       vmImage: ubuntu-latest
     steps:
