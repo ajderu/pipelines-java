@@ -55,9 +55,15 @@ steps:
 #deploy the Java app to Azure App Service
 - task: CmdLine@2
   inputs:
-    script: |
+    script:
+      echo 'running pwd'
       pwd    
+      echo 'pwd output completed'
+      echo 'running ls'
       ls
+      echo 'ls output completed'
+      echo 'cloning the Test Automation repo into the pipeline'
       git clone https://adrianjderu-organization@dev.azure.com/adrianjderu-organization/AzureDemo/_git/AzureDemo
-      pwd
+      echo 'cloning the Test Automation repo completed
+      cd '$(System.DefaultWorkingDirectory)'
       ls
