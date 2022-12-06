@@ -111,7 +111,7 @@ stages:
           ls
           echo ===ls output completed
           echo ===script ended===
-  - job: CloneTestAutomationRepo
+  - job: CopyTestAutomationRepoToArtifactStagingDirectory
     pool:
       vmImage: windows-latest
     steps:
@@ -121,9 +121,9 @@ stages:
         Contents: '**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
     #a is $(Build.ArtifactStagingDirectory)
-    - job: PublishBuildArtifactTestAutomationRepo
-      pool:
-        vmImage: windows-latest
+  - job: PublishBuildArtifactTestAutomationRepo
+    pool:
+      vmImage: windows-latest
       steps:
       - task: PublishBuildArtifacts@1
         displayName: 'Publish TestAutomation repo artifact'
@@ -132,7 +132,11 @@ stages:
         ArtifactName: 'TestAutomation'
         publishLocation: 'Container'
       #the task above publishes the TestAutomation repo artifact
-    - task: Maven@4
+  - job: RunTestAutomationQA
+    pool:
+      vmImage: windows-latest
+      steps:
+      - task: Maven@4
       displayName: 'Run TestAutomation'
       inputs:
         mavenPomFile: '$(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
