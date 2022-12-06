@@ -98,3 +98,9 @@ steps:
     ArtifactName: 'TestAutomation'
     publishLocation: 'Container'
 #the task above publishes the TestAutomation repo as an artifact
+- task: Maven@4
+  displayName: 'Maven $(System.DefaultWorkingDirectory)/_TestAutomation/pom.xml'
+  inputs:
+    mavenPomFile: '$(System.DefaultWorkingDirectory)/_TestAutomation/pom.xml'
+    goals: test
+#the task above runs the Test Automation job
