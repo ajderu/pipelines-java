@@ -81,9 +81,6 @@ stages:
       inputs:
         script:
           echo ===starting the script===
-          echo ===upgrading the OS===
-          sudo apt-get update
-          echo ===OS upgrade done===
           echo ===install git===
           sudo apt-get install git
           which git
