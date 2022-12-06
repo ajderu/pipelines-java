@@ -17,9 +17,9 @@ variables:
   value: aj-webapp-yaml
 #WebAppName exactly as it was created in Azure portal
 
-#pool:
-#  vmImage: windows-latest
-pool: 'Azure pipelines'
+pool:
+  vmImage: windows-latest
+
 
 steps:
 - task: Maven@3
