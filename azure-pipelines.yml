@@ -107,16 +107,15 @@ stages:
       inputs:
         Contents: '**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    - task: PublishBuildArtifacts@1
-      displayName: 'TestAutomation - Publish TestAutomation repo artifact'
+    - task: PublishPipelineArtifact@1
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'TestAutomation'
-        publishLocation: 'Container'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+        artifact: 'TestAutomation'
+        publishLocation: 'pipeline'
     - task: Maven@4
       displayName: 'Run TestAutomation'
       inputs:
-        mavenPomFile: '$(Build.ArtifactStagingDirectory)/pom.xml'
+        mavenPomFile: '$(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
         goals: test
     - task: AzureRmWebAppDeployment@4
       displayName: 'Deploy to Prod'
