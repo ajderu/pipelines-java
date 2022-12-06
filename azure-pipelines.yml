@@ -98,14 +98,15 @@ steps:
     ArtifactName: 'TestAutomation'
     publishLocation: 'Container'
 #the task above publishes the TestAutomation repo as an artifact  
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo ===making chromedriver for Linux executable===
-      cd TestAutomation
-      ls -al
-      chmod +x chromedriver
-      ls -al
+
+#- task: CmdLine@2
+#  inputs:
+#    script: |
+#      echo ===making chromedriver for Linux executable===
+#      cd TestAutomation
+#      ls -al
+#      chmod +x chromedriver
+#      ls -al
 #the task above makes chromedriver for Linux executable      
 - task: Maven@4
   displayName: 'Maven $(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
