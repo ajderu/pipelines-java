@@ -70,27 +70,14 @@ stages:
     - task: CmdLine@2
       displayName: 'TestAutomation - Clone the https://github.com/ajderu/TestAutomation.git repo'
       inputs:
-        script: |
-          echo ===starting the script===
-          echo ===upgrading the OS===
+        script:
           sudo apt-get update
-          echo ===OS upgrade done===
-          echo ===install git===
           sudo apt-get install git
           which git
-          echo ===git installation completed===
-          echo ===list files in pipeline root folder===
           ls
-          echo ===list files in pipeline root folder done===
-          echo ===pwd===
           pwd
-          echo ===pwd completed
-          echo ===cloning the repo to the pipeline root folder===
           git clone https://github.com/ajderu/TestAutomation.git
-          echo ===repo cloning completed==
-          echo ===pwd===
           pwd
-          echo ===pwd completed
           echo ====cd TestAutomation===
           cd TestAutomation
           echo ====cd TestAutomation done===
@@ -100,7 +87,6 @@ stages:
           echo ===ls===
           ls
           echo ===ls output completed
-          echo ===script ended===
     - task: CopyFiles@2
       displayName: 'TestAutomation - Copy TestAutomation repo to a folder'
       inputs:
