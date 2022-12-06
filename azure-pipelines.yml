@@ -96,7 +96,7 @@ steps:
   displayName: 'TestAutomation - Copy the https://github.com/ajderu/TestAutomation.git repo to a folder'
   inputs:
     Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/TestAutomation'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
   #the task above copies the TestAutomation repo to $(Build.ArtifactStagingDirectory)
 - task: PublishBuildArtifacts@1
   displayName: 'TestAutomation - Publish TestAutomation repo artifact'
