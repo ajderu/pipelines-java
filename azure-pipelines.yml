@@ -14,7 +14,7 @@ variables:
 stages:
 - stage: _BuildStage
   jobs:
-  - job: Build
+  - job: GenerateBuild
     pool:
       vmImage: ubuntu-latest
     steps:
@@ -28,10 +28,18 @@ stages:
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         goals: 'package'
+  - job: CopyBuildFiletoArtifactStagingFolder
+    pool:
+      vmImage: ubuntu-latest
+    steps:
     - task: CopyFiles@2
       inputs:
         Contents: '**/*.war'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  - job: PublishBuildArtifact
+    pool:
+      vmImage: ubuntu-latest
+    steps:
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
