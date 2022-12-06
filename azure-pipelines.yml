@@ -41,6 +41,18 @@ stages:
     pool:
       vmImage: windows-latest
     steps:
+    
+    #download the artifact from previous stage in the current job
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'specific'
+        project: 'e1bec76f-ea43-45c5-9713-7bf5eadeaea1'
+        pipeline: '10'
+        buildVersionToDownload: 'latest'
+        downloadType: 'single'
+        artifactName: 'warfile'
+        downloadPath: '$(Build.ArtifactStagingDirectory)'
+
     - task: AzureRmWebAppDeployment@4
       displayName: 'Deploy to QA'
       inputs:
