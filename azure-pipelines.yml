@@ -47,7 +47,7 @@ stages:
         azureSubscription: $(azureSubscription)
         appType: $(appType)
         WebAppName: $(WebAppName)
-        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
+        packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.war'
         StartupCommand: '$(Parameters.StartupCommand)'
     - task: CmdLine@2
       displayName: 'Clone TestAutomation repo'
