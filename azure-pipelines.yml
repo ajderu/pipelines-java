@@ -10,7 +10,7 @@ variables:
 - name: WebAppName
   value: aj-webapp-yaml
 stages:
-- stage: Build stage
+- stage: _BuildStage
   jobs:
   - job: Build and publish .war artifact
     pool:
@@ -35,7 +35,7 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'warfile'
         publishLocation: 'Container'
-- stage: Deployment stage 
+- stage: _DeploymentStage 
   jobs:
   - job: Deploy to QA & TestAutomation
     pool:
