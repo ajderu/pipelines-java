@@ -89,7 +89,6 @@ steps:
 #the task above clones the TestAutomation repo to s folder
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(agent.builddirectory)/TestAutomation'
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
