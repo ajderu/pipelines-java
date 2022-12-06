@@ -3,8 +3,10 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 # cross check CI
+
 trigger:
 - master
+
 
 variables: 
 - name: azureSubscription
@@ -17,33 +19,52 @@ variables:
   value: aj-webapp-yaml
 #WebAppName exactly as it was created in Azure portal
 
-pool:
+
+stages:
+
+
+- stage: _BuildStage
+  jobs:
+
+  - job: Build
+  pool:
   vmImage: windows-latest
+  steps:
 
+  - task: Maven@3
+    displayName: 'Creating .war build file'
+    inputs:
+      mavenPomFile: 'pom.xml'
+      mavenOptions: '-Xmx3072m'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.8'
+      jdkArchitectureOption: 'x64'
+      publishJUnitResults: true
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      goals: 'package'
+    #the task above creates the build file
 
-steps:
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
-#the task above creates the build file
 - task: CopyFiles@2
+  displayName: 'Copy build file to a folder'
   inputs:
     Contents: '**/*.war'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 #copy the from s folder to a folder
 - task: PublishBuildArtifacts@1
+  displayName: 'Publish .war build file'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'warfile'
     publishLocation: 'Container'
 #publish the artifact in a folder
+
+
+- stage: _DeployQAStage
+  jobs:
+  - job: DeployQA
+    pool:
+      vmImage: windows-latest
+    steps:
 - task: AzureRmWebAppDeployment@4
   displayName: 'Deploy QA - to Azure App Service'
   inputs:
