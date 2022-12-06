@@ -116,7 +116,7 @@ stages:
     - task: Maven@4
       displayName: 'Run TestAutomation'
       inputs:
-        mavenPomFile: '$(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
+        mavenPomFile: '$(Build.ArtifactStagingDirectory)/pom.xml'
         goals: test
     - task: AzureRmWebAppDeployment@4
       displayName: 'Deploy to Prod'
