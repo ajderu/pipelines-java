@@ -45,7 +45,7 @@ steps:
     publishLocation: 'Container'
 #publish the artifact in a folder
 - task: AzureRmWebAppDeployment@4
-  displayName: 'Deploy Azure App Service'
+  displayName: 'Deploy QA - to Azure App Service'
   inputs:
     azureSubscription: $(azureSubscription)
     appType: $(appType)
@@ -91,8 +91,10 @@ steps:
   inputs:
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+#the task above copies the TestAutomation repo to $(Build.ArtifactStagingDirectory)
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/TestAutomation'
     ArtifactName: 'TestAutomation'
     publishLocation: 'Container'
+#the task above publishes the TestAutomation repo as an artifact
