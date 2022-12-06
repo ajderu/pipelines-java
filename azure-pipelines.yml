@@ -19,7 +19,7 @@ variables:
   value: 'Web App on Linux'
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 
 steps:
