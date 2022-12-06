@@ -74,7 +74,7 @@ stages:
 
   - job: QATestAutomation
     pool:
-      vmImage: windows-latest
+      vmImage: ubuntu-latest
     steps:
     - task: CmdLine@2
       displayName: 'TestAutomation - Clone the https://github.com/ajderu/TestAutomation.git repo'
