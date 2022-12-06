@@ -109,7 +109,7 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: 'TestAutomation - Publish TestAutomation repo artifact'
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)/TestAutomation'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'TestAutomation'
         publishLocation: 'Container'
     - task: Maven@4
