@@ -12,7 +12,7 @@ variables:
 - name: azureSubscription
   value: 'YAML_Pipelines'
 #azureSubscription variable references the Azure Cloud Service Connection name
-- name: WebAppKind
+- name: WebAppType
   value: 'Web App on Linux'
 #WebAppKind available in the GUI classic pipeline menu
 - name: WebAppName
@@ -24,6 +24,7 @@ stages:
 
 
 - stage: _BuildStage
+  
   jobs:
 
   - job: Build
@@ -60,20 +61,29 @@ stages:
 
 
 - stage: _DeployQAStage
+  
   jobs:
+
   - job: DeployQA
     pool:
       vmImage: windows-latest
     steps:
-- task: AzureRmWebAppDeployment@4
-  displayName: 'Deploy QA - to Azure App Service'
-  inputs:
-    azureSubscription: $(azureSubscription)
-    appType: $(appType)
-    WebAppName: $(WebAppName)
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
-    StartupCommand: '$(Parameters.StartupCommand)'
-#deploy the Java app to Azure App Service
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'warfile'
+        downloadPath: '$(Build.ArtifactStagingDirectory)'''
+    
+    - task: AzureRmWebAppDeployment@4
+      displayName: 'Deploy QA - to Azure App Service'
+      inputs:
+        azureSubscription: $(azureSubscription)
+        WebAppType: $(WebAppType)
+        WebAppName: $(WebAppName)
+        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
+        StartupCommand: '$(Parameters.StartupCommand)'
+      #deploy the Java app to Azure App Service
 - task: CmdLine@2
   inputs:
     script: |
