@@ -27,28 +27,28 @@ stages:
   jobs:
 
   - job: Build
-  pool:
-  vmImage: windows-latest
-  steps:
+    pool:
+     vmImage: windows-latest
+    steps:
 
-  - task: Maven@3
-    displayName: 'Creating .war build file'
-    inputs:
-      mavenPomFile: 'pom.xml'
-      mavenOptions: '-Xmx3072m'
-      javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.8'
-      jdkArchitectureOption: 'x64'
-      publishJUnitResults: true
-      testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      goals: 'package'
+    - task: Maven@3
+      displayName: 'Creating .war build file'
+      inputs:
+        mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.8'
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        goals: 'package'
     #the task above creates the build file
 
-- task: CopyFiles@2
-  displayName: 'Copy build file to a folder'
-  inputs:
-    Contents: '**/*.war'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: CopyFiles@2
+      displayName: 'Copy build file to a folder'
+      inputs:
+        Contents: '**/*.war'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
 #copy the from s folder to a folder
 - task: PublishBuildArtifacts@1
   displayName: 'Publish .war build file'
