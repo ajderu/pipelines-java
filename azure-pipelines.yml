@@ -112,10 +112,4 @@ steps:
   inputs:
     mavenPomFile: '$(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
     goals: test
-    script:
-      echo ===making chromedriver for Linux executable===
-      cd TestAutomation
-      ls -al
-      chmod +x chromedriver
-      ls -al
 #the task above runs the Test Automation job
