@@ -45,7 +45,7 @@ steps:
     publishLocation: 'Container'
 #publish the artifact in a folder
 - task: AzureRmWebAppDeployment@4
-  displayName: 'Deploy QA - to Azure App Service'
+  displayName: 'Deploy QA'
   inputs:
     azureSubscription: $(azureSubscription)
     appType: $(appType)
@@ -98,18 +98,9 @@ steps:
     ArtifactName: 'TestAutomation'
     publishLocation: 'Container'
 #the task above publishes the TestAutomation repo as an artifact  
-
-#- task: CmdLine@2
-#  inputs:
-#    script: |
-#      echo ===making chromedriver for Linux executable===
-#      cd TestAutomation
-#      ls -al
-#      chmod +x chromedriver
-#      ls -al
-#the task above makes chromedriver for Linux executable      
+      
 - task: Maven@4
-  displayName: 'Maven $(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
+  displayName: 'Run TestAutomation'
   inputs:
     mavenPomFile: '$(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
     goals: test
