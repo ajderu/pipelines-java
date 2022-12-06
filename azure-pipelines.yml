@@ -10,10 +10,11 @@ variables:
 - name: azureSubscription
   value: 'YAML_Pipelines'
 #azureSubscription variable references the Azure Cloud Service Connection name
-- name: WebAppName
+- name: WebAppNameQA
   value: aj-webapp-yaml
 #WebAppName exactly as it was created in Azure portal
-
+- name: WebAppNameProd
+  value: aj-webapp-prod
 pool:
   vmImage: windows-latest
 
