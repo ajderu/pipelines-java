@@ -125,5 +125,3 @@ stages:
         WebAppName: $(WebAppNameProd)
         packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.war'
         StartupCommand: '$(Parameters.StartupCommand)'
-
-
