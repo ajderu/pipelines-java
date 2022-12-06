@@ -77,21 +77,21 @@ stages:
       vmImage: ubuntu-latest
     steps:
     - task: CmdLine@2
-      displayName: 'TestAutomation - Clone the https://github.com/ajderu/TestAutomation.git repo'
+      displayName: 'TestAutomation - Clone the TestAutomation repo to s'
       inputs:
         script:
-          sudo apt-get update
-          sudo apt-get install git
-          which git
-          ls
-          pwd
+          sudo apt-get update;
+          sudo apt-get install git;
+          which git;
+          ls;
+          pwd;
           git clone https://github.com/ajderu/TestAutomation.git
-          pwd
+          pwd;
           echo ====cd TestAutomation===
-          cd TestAutomation
+          cd TestAutomation;
           echo ====cd TestAutomation done===
           echo ===pwd===
-          pwd
+          pwd;
           echo ===pwd completed
           echo ===ls===
           ls
