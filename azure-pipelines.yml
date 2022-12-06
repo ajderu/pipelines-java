@@ -59,7 +59,10 @@ steps:
       echo Write your commands here
       echo ls
       echo Hello world
-      git clone https://github.com/ajderu/TestAutomation.git
+      sudo apt-get update
+      sudo apt-get install git
+      which git
+#      git clone https://github.com/ajderu/TestAutomation.git
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     failOnStderr: true
 
