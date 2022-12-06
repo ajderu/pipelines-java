@@ -101,6 +101,6 @@ steps:
 - task: Maven@4
   displayName: 'Maven $(System.DefaultWorkingDirectory)/_TestAutomation/pom.xml'
   inputs:
-    mavenPomFile: '$(System.DefaultWorkingDirectory)/_TestAutomation/pom.xml'
+    mavenPomFile: '$(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
     goals: test
 #the task above runs the Test Automation job
