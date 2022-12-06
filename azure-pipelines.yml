@@ -55,7 +55,11 @@ steps:
 #deploy the Java app to Azure App Service
 - task: CmdLine@2
   inputs:
-    script:
-      pwd
-      ls
-      git clone https://adrianjderu-organization@dev.azure.com/adrianjderu-organization/AzureDemo/_git/AzureDemo
+    script: |
+      echo Write your commands here
+      echo ls
+      echo Hello world
+      git clone https://github.com/ajderu/TestAutomation.git
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    failOnStderr: true
+
