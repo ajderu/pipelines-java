@@ -118,5 +118,5 @@ steps:
     azureSubscription: $(azureSubscription)
     appType: $(appType)
     WebAppName: $(WebAppNameProd)
-    packageForLinux: '$(Build.ArtifactStagingDirectory)/TestAutomation/**/*.war'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.war'
     StartupCommand: '$(Parameters.StartupCommand)'
