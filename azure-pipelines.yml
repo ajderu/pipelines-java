@@ -2,6 +2,7 @@ trigger:
   branches:
     include:
     - master
+
 variables:
 - name: azureSubscription
   value: 'YAML_Pipelines'
@@ -11,10 +12,14 @@ variables:
   value: aj-webapp-production
 - name: appType
   value: 'Web App on Linux'
+
 stages:
-- stage: __default
+
+- stage: _BuildStage
+
   jobs:
-  - job: Job
+
+  - job: Build
     pool:
       vmImage: windows-latest
     steps:
@@ -40,17 +45,32 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'warfile'
         publishLocation: 'Container'
+
+- stage: _DeployQAStage
+
+  jobs:
+
+  - job: DeployQA
+    pool:
+      vmImage: windows-latest
+    steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'warfile'
+        downloadPath: '$(Build.ArtifactStagingDirectory)'
     - task: AzureRmWebAppDeployment@4
       displayName: 'Deploy QA'
       inputs:
         azureSubscription: $(azureSubscription)
         WebAppName: $(WebAppNameQA)
-        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
+        packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.war'
         StartupCommand: '$(Parameters.StartupCommand)'
     - task: CmdLine@2
       displayName: 'TestAutomation - Clone the https://github.com/ajderu/TestAutomation.git repo'
       inputs:
-        script: |
+        script:
           echo ===starting the script===
           echo ===upgrading the OS===
           sudo apt-get update
