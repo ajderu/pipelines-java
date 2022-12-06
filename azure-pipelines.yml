@@ -51,7 +51,7 @@ steps:
   displayName: 'Deploy QA'
   inputs:
     azureSubscription: $(azureSubscription)
-    appType: $(appType)
+#    appType: $(appType)
     WebAppName: $(WebAppName)
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
     StartupCommand: '$(Parameters.StartupCommand)'
