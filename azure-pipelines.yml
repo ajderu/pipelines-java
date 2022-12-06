@@ -64,6 +64,3 @@ steps:
       echo 'ls output completed'
       echo 'cloning the Test Automation repo into the pipeline'
       git clone https://adrianjderu-organization@dev.azure.com/adrianjderu-organization/AzureDemo/_git/AzureDemo
-      echo 'cloning the Test Automation repo compled'
-      ls
-      pwd
