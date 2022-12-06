@@ -37,7 +37,7 @@ stages:
         publishLocation: 'Container'
 - stage: _DeploymentStage 
   jobs:
-  - job: _DeploytoQA&TestAutomation
+  - job: _DeploymentQATestAutomation
     pool:
       vmImage: windows-latest
     steps:
