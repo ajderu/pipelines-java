@@ -68,22 +68,21 @@ stages:
     pool:
       vmImage: windows-latest
     steps:
+
     - task: DownloadBuildArtifacts@0
       inputs:
-        buildType: 'specific'
-        project: 'e1bec76f-ea43-45c5-9713-7bf5eadeaea1'
-        pipeline: '11'
-        buildVersionToDownload: 'latest'
+        buildType: 'current'
         downloadType: 'single'
         artifactName: 'warfile'
         downloadPath: '$(Build.ArtifactStagingDirectory)'
- 
+        WebAppName: $(WebAppName)
+        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
+        StartupCommand: '$(Parameters.StartupCommand)'
+
+
     - task: AzureRmWebAppDeployment@4
       displayName: 'Deploy QA - to Azure App Service'
       inputs:
         azureSubscription: $(azureSubscription)
         WebAppType: $(WebAppType)
-        WebAppName: $(WebAppName)
-        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
-        StartupCommand: '$(Parameters.StartupCommand)'
       #deploy the Java app to Azure App Service
