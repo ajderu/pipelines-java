@@ -65,7 +65,7 @@ stages:
       inputs:
         azureSubscription: $(azureSubscription)
         WebAppName: $(WebAppNameQA)
-        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
+        packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.war'
         StartupCommand: '$(Parameters.StartupCommand)'
     - task: CmdLine@2
       displayName: 'TestAutomation - Clone the https://github.com/ajderu/TestAutomation.git repo'
