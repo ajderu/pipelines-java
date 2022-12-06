@@ -2,12 +2,24 @@
 # Build your Java project and run tests with Apache Maven.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
-
+# cross check CI
 trigger:
-- main
+- master
+
+variables: 
+- name: azureSubscription
+  value: 'YAML_Pipelines'
+#azureSubscription variable references the Azure Cloud Service Connection name
+- name: WebAppKind
+  value: 'Web App on Linux'
+#WebAppKind available in the GUI classic pipeline menu
+- name: WebAppName
+  value: aj-webapp-yaml
+#WebAppName exactly as it was created in Azure portal
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
+
 
 steps:
 - task: Maven@3
@@ -20,3 +32,85 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
+#the task above creates the build file
+- task: CopyFiles@2
+  inputs:
+    Contents: '**/*.war'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+#copy the from s folder to a folder
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'warfile'
+    publishLocation: 'Container'
+#publish the artifact in a folder
+- task: AzureRmWebAppDeployment@4
+  displayName: 'Deploy QA - to Azure App Service'
+  inputs:
+    azureSubscription: $(azureSubscription)
+    appType: $(appType)
+    WebAppName: $(WebAppName)
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
+    StartupCommand: '$(Parameters.StartupCommand)'
+#deploy the Java app to Azure App Service
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo ===starting the script===
+      echo ===upgrading the OS===
+      sudo apt-get update
+      echo ===OS upgrade done===
+      echo ===install git===
+      sudo apt-get install git
+      which git
+      echo ===git installation completed===
+      echo ===list files in pipeline root folder===
+      ls
+      echo ===list files in pipeline root folder done===
+      echo ===pwd===
+      pwd
+      echo ===pwd completed
+      echo ===cloning the repo to the pipeline root folder===
+      git clone https://github.com/ajderu/TestAutomation.git
+      echo ===repo cloning completed==
+      echo ===pwd===
+      pwd
+      echo ===pwd completed
+      echo ====cd TestAutomation===
+      cd TestAutomation
+      echo ====cd TestAutomation done===
+      echo ===pwd===
+      pwd
+      echo ===pwd completed
+      echo ===ls===
+      ls
+      echo ===ls output completed
+      echo ===script ended===
+#the task above clones the TestAutomation repo to s folder
+- task: CopyFiles@2
+  inputs:
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+#the task above copies the TestAutomation repo to $(Build.ArtifactStagingDirectory)
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/TestAutomation'
+    ArtifactName: 'TestAutomation'
+    publishLocation: 'Container'
+#the task above publishes the TestAutomation repo as an artifact  
+
+#- task: CmdLine@2
+#  inputs:
+#    script: |
+#      echo ===making chromedriver for Linux executable===
+#      cd TestAutomation
+#      ls -al
+#      chmod +x chromedriver
+#      ls -al
+#the task above makes chromedriver for Linux executable      
+- task: Maven@4
+  displayName: 'Maven $(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
+  inputs:
+    mavenPomFile: '$(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
+    goals: test
+#the task above runs the Test Automation job
