@@ -53,7 +53,7 @@ steps:
   inputs:
     azureSubscription: $(azureSubscription)
     #appType: $(appType)
-    WebAppName: $(WebAppName)
+    WebAppName: $(WebAppNameQA)
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.war'
     StartupCommand: '$(Parameters.StartupCommand)'
 #deploy the Java app to Azure App Service
