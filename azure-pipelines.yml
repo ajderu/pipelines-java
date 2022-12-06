@@ -76,7 +76,7 @@ stages:
         buildVersionToDownload: 'latest'
         downloadType: 'single'
         artifactName: 'warfile'
-        downloadPath: '''$(Build.ArtifactStagingDirectory)'''
+        downloadPath: '$(Build.ArtifactStagingDirectory)'
  
     - task: AzureRmWebAppDeployment@4
       displayName: 'Deploy QA - to Azure App Service'
