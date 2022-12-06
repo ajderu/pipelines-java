@@ -13,7 +13,7 @@ variables:
 - name: appType
   value: 'Web App on Linux'
 - name: system.debug
-  value: true
+  value: 'true'
 stages:
 
 - stage: _BuildStage
