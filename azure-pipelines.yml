@@ -93,7 +93,7 @@ steps:
       echo ===script ended===
 #the task above clones the TestAutomation repo to s folder
 - task: CopyFiles@2
-  displayName: 'TestAutomation - Copy the https://github.com/ajderu/TestAutomation.git repo to a folder'
+  displayName: 'TestAutomation - Copy TestAutomation repo to a folder'
   inputs:
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
