@@ -45,9 +45,9 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'warfile'
         publishLocation: 'Container'
-- stage: _DeploymentStage 
+- stage: _DeployQAStage
   jobs:
-  - job: DeploymentQATestAutomation
+  - job: DeployQA
     pool:
       vmImage: windows-latest
     steps:
@@ -70,6 +70,13 @@ stages:
         WebAppName: $(WebAppNameQA)
         packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.war'
         StartupCommand: '$(Parameters.StartupCommand)'
+    #deploy to Azure RM WebApp
+- stage: _TestAutomationStage
+  jobs:
+  - job: CloneTestAutomationRepo
+    pool:
+      vmImage: windows-latest
+    steps:
     - task: CmdLine@2
       displayName: 'Clone TestAutomation repo'
       inputs:
@@ -104,15 +111,23 @@ stages:
           ls
           echo ===ls output completed
           echo ===script ended===
+  - job: CloneTestAutomationRepo
+    pool:
+      vmImage: windows-latest
+    steps:
     - task: CopyFiles@2
       displayName: 'Copy TestAutomation repo to a'
       inputs:
         Contents: '**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
     #a is $(Build.ArtifactStagingDirectory)
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish TestAutomation repo artifact'
-      inputs:
+    - job: PublishBuildArtifactTestAutomationRepo
+      pool:
+        vmImage: windows-latest
+      steps:
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish TestAutomation repo artifact'
+        inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)/TestAutomation'
         ArtifactName: 'TestAutomation'
         publishLocation: 'Container'
