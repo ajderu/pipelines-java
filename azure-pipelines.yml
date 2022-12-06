@@ -114,10 +114,22 @@ stages:
       inputs:
         mavenPomFile: '$(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
         goals: test
-  - job: _DeploymentProd
+- stage: _DeployProd
+  jobs:
+  - job: _DeployProd
     pool:
       vmImage: ubuntu-latest
     steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'specific'
+        project: 'e1bec76f-ea43-45c5-9713-7bf5eadeaea1'
+        pipeline: '10'
+        buildVersionToDownload: 'latest'
+        downloadType: 'single'
+        artifactName: 'warfile'
+        downloadPath: '$(Build.ArtifactStagingDirectory)'
+#download the .war artifact from the Build job
     - task: AzureRmWebAppDeployment@4
       displayName: 'Deploy to Prod'
       inputs:
