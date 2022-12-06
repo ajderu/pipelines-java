@@ -65,4 +65,6 @@ steps:
       ls
       git clone https://github.com/ajderu/TestAutomation.git
       ls
+      cd TestAutomation
+      ls
 
