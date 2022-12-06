@@ -10,9 +10,6 @@ variables:
 - name: azureSubscription
   value: 'YAML_Pipelines'
 #azureSubscription variable references the Azure Cloud Service Connection name
-- name: WebAppKind
-  value: 'Web App on Linux'
-#WebAppKind available in the GUI classic pipeline menu
 - name: WebAppName
   value: aj-webapp-yaml
 #WebAppName exactly as it was created in Azure portal
