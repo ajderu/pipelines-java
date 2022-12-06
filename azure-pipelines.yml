@@ -23,6 +23,7 @@ pool:
 
 steps:
 - task: Maven@3
+  displayName: 'Generating .war file'
   inputs:
     mavenPomFile: 'pom.xml'
     mavenOptions: '-Xmx3072m'
@@ -34,11 +35,13 @@ steps:
     goals: 'package'
 #the task above creates the build file
 - task: CopyFiles@2
+  displayName: 'Copy .war file to a'
   inputs:
     Contents: '**/*.war'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 #copy the from s folder to a folder
 - task: PublishBuildArtifacts@1
+  displayName: 'Publish .war file'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'warfile'
