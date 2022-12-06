@@ -99,7 +99,7 @@ steps:
     publishLocation: 'Container'
 #the task above publishes the TestAutomation repo as an artifact
 - task: Maven@4
-  displayName: 'Maven $(System.DefaultWorkingDirectory)/_TestAutomation/pom.xml'
+  displayName: 'Maven $(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
   inputs:
     mavenPomFile: '$(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
     goals: test
