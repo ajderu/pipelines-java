@@ -14,7 +14,7 @@ variables:
 stages:
 - stage: _BuildStage
   jobs:
-  - job: GenerateBuild
+  - job: Build
     pool:
       vmImage: ubuntu-latest
     steps:
@@ -28,26 +28,18 @@ stages:
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         goals: 'package'
-  - job: CopyBuildFiletoArtifactStagingFolder
-    pool:
-      vmImage: ubuntu-latest
-    steps:
     - task: CopyFiles@2
       inputs:
         Contents: '**/*.war'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
-  - job: PublishBuildArtifact
-    pool:
-      vmImage: ubuntu-latest
-    steps:
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'warfile'
         publishLocation: 'Container'
-- stage: _DeployQAStage
+- stage: _DeploymentStage 
   jobs:
-  - job: DeployQA
+  - job: _DeploymentQATestAutomation
     pool:
       vmImage: windows-latest
     steps:
@@ -70,13 +62,6 @@ stages:
         WebAppName: $(WebAppNameQA)
         packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.war'
         StartupCommand: '$(Parameters.StartupCommand)'
-    #deploy to Azure RM WebApp
-- stage: _TestAutomationStage
-  jobs:
-  - job: CloneTestAutomationRepo
-    pool:
-      vmImage: windows-latest
-    steps:
     - task: CmdLine@2
       displayName: 'Clone TestAutomation repo'
       inputs:
@@ -111,32 +96,20 @@ stages:
           ls
           echo ===ls output completed
           echo ===script ended===
-  - job: CopyTestAutomationRepoToArtifactStagingDirectory
-    pool:
-      vmImage: windows-latest
-    steps:
     - task: CopyFiles@2
       displayName: 'Copy TestAutomation repo to a'
       inputs:
         Contents: '**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
     #a is $(Build.ArtifactStagingDirectory)
-  - job: PublishBuildArtifactTestAutomationRepo
-    pool:
-      vmImage: windows-latest
-      steps:
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish TestAutomation repo artifact'
-        inputs:
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish TestAutomation repo artifact'
+      inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)/TestAutomation'
         ArtifactName: 'TestAutomation'
         publishLocation: 'Container'
       #the task above publishes the TestAutomation repo artifact
-  - job: RunTestAutomationQA
-    pool:
-      vmImage: windows-latest
-      steps:
-      - task: Maven@4
+    - task: Maven@4
       displayName: 'Run TestAutomation'
       inputs:
         mavenPomFile: '$(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
