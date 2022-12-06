@@ -41,8 +41,6 @@ stages:
     pool:
       vmImage: windows-latest
     steps:
-    
-
     - task: DownloadBuildArtifacts@0
       inputs:
         buildType: 'specific'
