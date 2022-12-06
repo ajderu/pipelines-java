@@ -7,8 +7,10 @@ variables:
   value: 'YAML_Pipelines'
 - name: WebAppKind
   value: 'Web App on Linux'
-- name: WebAppName
+- name: WebAppNameQA
   value: aj-webapp-yaml
+- name: WebAppNameProd
+  value: aj-webapp-prod  
 stages:
 - stage: _BuildStage
   jobs:
@@ -57,7 +59,7 @@ stages:
       inputs:
         azureSubscription: $(azureSubscription)
         appType: $(appType)
-        WebAppName: $(WebAppName)
+        WebAppName: $(WebAppNameQA)
         packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.war'
         StartupCommand: '$(Parameters.StartupCommand)'
     - task: CmdLine@2
@@ -106,8 +108,21 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)/TestAutomation'
         ArtifactName: 'TestAutomation'
         publishLocation: 'Container'
+      #the task above publishes the TestAutomation repo artifact
     - task: Maven@4
       displayName: 'Run TestAutomation'
       inputs:
         mavenPomFile: '$(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
         goals: test
+  - job: _DeploymentProd
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: AzureRmWebAppDeployment@4
+      displayName: 'Deploy to Prod'
+      inputs:
+        azureSubscription: $(azureSubscription)
+        appType: $(appType)
+        WebAppName: $(WebAppNameProd)
+        packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.war'
+        StartupCommand: '$(Parameters.StartupCommand)'
