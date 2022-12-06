@@ -57,6 +57,7 @@ steps:
     StartupCommand: '$(Parameters.StartupCommand)'
 #deploy the Java app to Azure App Service
 - task: CmdLine@2
+  displayName: 'TestAutomation - Clone the https://github.com/ajderu/TestAutomation.git repo'
   inputs:
     script: |
       echo ===starting the script===
@@ -91,11 +92,13 @@ steps:
       echo ===script ended===
 #the task above clones the TestAutomation repo to s folder
 - task: CopyFiles@2
+  displayName: 'TestAutomation - Copy the https://github.com/ajderu/TestAutomation.git repo to a folder'
   inputs:
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 #the task above copies the TestAutomation repo to $(Build.ArtifactStagingDirectory)
 - task: PublishBuildArtifacts@1
+  displayName: 'TestAutomation - Publish TestAutomation repo artifact'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/TestAutomation'
     ArtifactName: 'TestAutomation'
