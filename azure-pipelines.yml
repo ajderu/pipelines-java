@@ -46,7 +46,13 @@ stages:
   - job: DeployQA
     pool:
       vmImage: windows-latest
-    steps:
+    steps:    
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'warfile'
+        downloadPath: '$(Build.ArtifactStagingDirectory)'
     - task: AzureRmWebAppDeployment@4
       displayName: 'Deploy QA'
       inputs:
@@ -104,12 +110,6 @@ stages:
       inputs:
         mavenPomFile: '$(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
         goals: test
-    - task: DownloadBuildArtifacts@0
-      inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'warfile'
-        downloadPath: '$(Build.ArtifactStagingDirectory)'
     - task: AzureRmWebAppDeployment@4
       displayName: 'Deploy to Prod'
       inputs:
