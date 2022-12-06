@@ -18,7 +18,7 @@ variables:
 #WebAppName exactly as it was created in Azure portal
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 
 steps:
