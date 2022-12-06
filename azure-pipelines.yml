@@ -82,5 +82,7 @@ steps:
       echo ===pwd===
       pwd
       echo ===pwd completed
+      echo ===ls===
       ls
+      echo ===ls output completed
       echo ===script ended===
