@@ -84,10 +84,11 @@ stages:
           echo ===ls output completed
           echo ===script ended===
     - task: CopyFiles@2
-      displayName: 'Copy TestAutomation repo to $(Build.ArtifactStagingDirectory)'
+      displayName: 'Copy TestAutomation repo to a'
       inputs:
         Contents: '**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    #a is $(Build.ArtifactStagingDirectory)
     - task: PublishBuildArtifacts@1
       displayName: 'Publish TestAutomation repo artifact'
       inputs:
