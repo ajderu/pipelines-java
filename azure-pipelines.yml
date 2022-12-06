@@ -12,9 +12,9 @@ variables:
 - name: appType
   value: 'Web App on Linux'
 stages:
-- stage: __default
+- stage: _BuildStage
   jobs:
-  - job: Job
+  - job: Build
     pool:
       vmImage: windows-latest
     steps:
@@ -40,6 +40,13 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'warfile'
         publishLocation: 'Container'
+
+- stage: _DeployQAStage
+  jobs:
+  - job: DeployQA
+    pool:
+      vmImage: windows-latest
+    steps:
     - task: AzureRmWebAppDeployment@4
       displayName: 'Deploy QA'
       inputs:
@@ -97,6 +104,12 @@ stages:
       inputs:
         mavenPomFile: '$(Build.ArtifactStagingDirectory)/TestAutomation/pom.xml'
         goals: test
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'warfile'
+        downloadPath: '$(Build.ArtifactStagingDirectory)'
     - task: AzureRmWebAppDeployment@4
       displayName: 'Deploy to Prod'
       inputs:
